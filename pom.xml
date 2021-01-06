@@ -8,7 +8,12 @@
     <artifactId>program-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>program_common</module>
+        <module>program-common</module>
+        <module>porgram-pojo</module>
+        <module>program-dao</module>
+        <module>porgram-interface</module>
+        <module>program-service</module>
+        <module>program-web</module>
     </modules>
 
     <packaging>pom</packaging>

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>program_common</artifactId>
+    <artifactId>program-common</artifactId>
 
     <packaging>jar</packaging>
 
