@@ -27,7 +27,7 @@
                 <div class="box">
                     <div class="filter-container">
                         <el-input placeholder="项目编码/项目名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item"></el-input>
-                        <el-button @click="findPage()" class="dalfBut">查询</el-button>
+                        <el-button @click="handleCurrentChange(1)" class="dalfBut">查询</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
                     </div>
                     <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
@@ -58,7 +58,7 @@
                             :total="pagination.total">
                         </el-pagination>
                     </div>
-                    <!-- 新增标签弹层 -->
+                     <!-- 新增标签弹层 -->
                     <div class="add-form">
                         <el-dialog title="新增检查项" :visible.sync="dialogFormVisible">
                             <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
@@ -225,28 +225,103 @@
             },
             //钩子函数，VUE对象初始化完成后自动执行
             created() {
+                this.findPage();
+
             },
             methods: {
                 //编辑
                 handleEdit() {
+                    this.$refs['dataEditForm'].validate((valid) => {
+                        if (valid) {
+                            // 校验通过
+                            // 修改检查项的请求
+                            axios.post('/checkitem/update.do',this.formData).then(res => {
+                                // 提示信息
+                                this.$message({
+                                    message: res.data.message,
+                                    type: res.data.flag?"success":"error"
+                                });
+                                if(res.data.flag){
+                                    // 关闭编辑的窗口
+                                    this.dialogFormVisible4Edit = false;
+                                    // 刷新列表数据
+                                    this.findPage();
+                                }
+                            })
+                        }
+                    });
                 },
                 //添加
                 handleAdd () {
+                    // 表单校验
+                    this.$refs['dataAddForm'].validate((valid) => {
+                        if (valid) {
+                            // 校验通过
+                            // 添加检查项的请求
+                            axios.post('/checkitem/add.do',this.formData).then(res => {
+                                // 提示信息
+                                this.$message({
+                                    message: res.data.message,
+                                    type: res.data.flag?"success":"error"
+                                });
+                                if(res.data.flag){
+                                    // 关闭新增的窗口
+                                    this.dialogFormVisible = false;
+                                    // 刷新列表数据
+                                    this.findPage();
+                                }
+                            })
+                        }
+                    });
                 },
                 //分页查询
                 findPage() {
+                    // 查询所有检查项
+                    axios.post('/checkitem/findPage.do',this.pagination).then(res => {
+                        //res.data=>Result对象(flag,message,data)
+                        // 判断 是否成功
+                        if(res.data.flag){
+                            // 绑定数据
+                            this.dataList = res.data.data.rows;
+                            this.pagination.total = res.data.data.total;
+                        }else{
+                            // 提示错误信息
+                            this.$message.error(res.data.message);
+                        }
+                    })
                 },
                 // 重置表单
                 resetForm() {
+                    this.formData={};// 表单内容清空
                 },
                 // 弹出添加窗口
                 handleCreate() {
+                    // 重置表单
+                    this.resetForm();
+                    // 弹出添加窗口
+                    this.dialogFormVisible = true;
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+                    var id = row.id;
+                    this.resetForm();
+                    this.dialogFormVisible4Edit = true;
+                    axios.get('/checkitem/findById.do?id=' + id).then(res => {
+                        //res.data=>Result对象(flag,message,data)
+                        // 判断 是否成功
+                        if(res.data.flag){
+                            // 绑定数据
+                            this.formData = res.data.data;
+                        }else{
+                            // 提示错误信息
+                            this.$message.error(res.data.message);
+                        }
+                    })
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
+                    this.pagination.currentPage =currentPage;
+                    this.findPage();
                 },
                 // 删除
                 handleDelete(row) {

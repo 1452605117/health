@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.alibaba.health.dao.CheckItemDao">
+    <insert id="add" parameterType="checkItem">
+        insert into t_checkitem (code,name,sex,age,price,type,remark,attention)
+        values(#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention})
+    </insert>
+    <update id="update" parameterType="checkItem">
+        update t_checkitem set code = #{code},name = #{name},sex = #{sex},age = #{age},price = #{price},type = #{type},remark =#{remark} ,attention = #{attention}
+        where id = #{id}
+    </update>
+    <select id="findAll" resultType="checkItem">
+        select * from t_checkitem;
+    </select>
+    <select id="findByCondition" resultType="checkItem" parameterType="string">
+        select * from t_checkitem
+        <where>
+            <if test="value != null and value.length > 0">
+            code like #{queryString} or name like #{queryString}
+            </if>
+        </where>
+    </select>
+    <select id="findById" resultType="checkItem" parameterType="int">
+        select * from t_checkitem where id = #{id};
+    </select>
+</mapper>
