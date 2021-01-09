@@ -2,9 +2,11 @@ package com.alibaba.service.Impl;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.health.constant.MessageConstant;
 import com.alibaba.health.dao.CheckItemDao;
 import com.alibaba.health.entity.PageResult;
 import com.alibaba.health.entity.QueryPageBean;
+import com.alibaba.health.exception.MyException;
 import com.alibaba.health.pojo.CheckItem;
 import com.alibaba.service.CheckItemService;
 import com.github.pagehelper.Page;
@@ -48,5 +50,17 @@ public class CheckItemServiceImpl implements CheckItemService {
     @Override
     public void update(CheckItem checkItem) {
         checkItemDao.update(checkItem);
+    }
+
+    @Override
+    public void deleteById(int id) {
+        //  统计使用了这个id的个数
+        int count = checkItemDao.findCountByCheckItemId(id);
+        if(count > 0){
+            throw new MyException("该检查项被使用了，不能删除!");
+        }
+        // 删除
+        checkItemDao.deleteById(id);
+
     }
 }

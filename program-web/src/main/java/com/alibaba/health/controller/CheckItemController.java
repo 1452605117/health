@@ -82,4 +82,11 @@ public class CheckItemController {
         // 返回操作的结果
         return new Result(true, MessageConstant.EDIT_CHECKITEM_SUCCESS);
     }
+    @PostMapping("/deleteById")
+    public Result deleteById(int id){
+        // 调用服务添加
+        checkItemService.deleteById(id);
+        // 返回操作的结果
+        return new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
+    }
 }

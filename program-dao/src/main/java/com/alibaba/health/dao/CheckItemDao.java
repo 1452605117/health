@@ -15,4 +15,8 @@ public interface CheckItemDao {
   CheckItem findById(int id);
 
   void update(CheckItem checkItem);
+
+  int findCountByCheckItemId(int id);
+
+  void deleteById(int id);
 }

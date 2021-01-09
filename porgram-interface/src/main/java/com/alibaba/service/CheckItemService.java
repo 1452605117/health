@@ -16,4 +16,6 @@ public interface CheckItemService {
     CheckItem findById(int id);
 
     void update(CheckItem checkItem);
+
+    void deleteById(int id);
 }

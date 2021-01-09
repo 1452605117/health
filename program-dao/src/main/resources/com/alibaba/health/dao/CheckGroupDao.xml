@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.alibaba.health.dao.CheckGroupDao">
+
+    <insert id="add" parameterType="checkgroup" keyProperty="id" useGeneratedKeys="true">
+       insert into t_checkgroup (code,name,helpCode,sex,remark,attention)
+        values (#{code},#{name},#{helpCode},#{sex},#{remark},#{attention})
+    </insert>
+
+    <insert id="addCheckGroupCheckItem" parameterType="int">
+       insert into t_checkgroup_checkitem (checkgroup_id, checkitem_id)
+       values (#{checkGroupId}, #{checkitemId})
+    </insert>
+
+    <select id="findByCondition" resultType="checkgroup" parameterType="String">
+        select * From t_checkgroup
+        <if test="value !=null and value.length > 0">
+            where code like #{value} or name like #{value} or helpCode like #{value}
+        </if>
+    </select>
+
+
+</mapper>
