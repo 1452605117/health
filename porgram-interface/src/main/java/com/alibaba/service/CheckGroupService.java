@@ -19,4 +19,6 @@ public interface CheckGroupService {
     void update(CheckGroup checkgroup, Integer[] checkitemIds);
 
     void deleteById(int id)throws MyException;
+
+    List<CheckGroup> findAll();
 }

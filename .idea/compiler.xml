@@ -8,10 +8,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="program-service" />
         <module name="program-dao" />
+        <module name="program-jobs" />
         <module name="program-web" />
         <module name="porgram-interface" />
         <module name="porgram-pojo" />
         <module name="program-common" />
+        <module name="mobile-web" />
       </profile>
     </annotationProcessing>
   </component>

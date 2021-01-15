@@ -18,4 +18,6 @@ public interface CheckItemService {
     void update(CheckItem checkItem);
 
     void deleteById(int id);
+
+
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/checkgroup")
 public class CheckGroupController {
@@ -54,5 +55,10 @@ public class CheckGroupController {
         //调用业务服务删除
         checkGroupService.deleteById(id);
         return new Result(true, MessageConstant.DELETE_CHECKGROUP_SUCCESS);
+    }
+    @GetMapping("/findAll")
+    public Result findAll(){
+        List<CheckGroup> list = checkGroupService.findAll();
+        return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,list);
     }
 }

@@ -53,5 +53,9 @@ delete from t_checkgroup where id=#{id}
 select count(1) from t_setmeal_checkgroup where checkgroup_id=#{id}
     </select>
 
+    <select id="findAll" resultType="checkgroup">
+       select * from t_checkgroup
+    </select>
+
 
 </mapper>
